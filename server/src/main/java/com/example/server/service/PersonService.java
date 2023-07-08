@@ -1,6 +1,6 @@
 package com.example.server.service;
 
-import com.example.server.model.Person;
+import com.example.server.entity.Person;
 import com.example.server.repository.PersonRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -22,6 +22,12 @@ public class PersonService {
     @Transactional(readOnly = true)
     public List<Person> getAll() {
         return personRepository.findAll();
+    }
+
+    @Transactional(readOnly = true)
+    public Person getById(Long id) {
+        return personRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Person with id " + id + " not found"));
     }
 
     @Transactional

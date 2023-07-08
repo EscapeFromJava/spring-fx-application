@@ -21,8 +21,9 @@ public class PersonClient {
     }
 
     public List<PersonDto> getAll() {
-        ResponseEntity<List<PersonDto>> response = restTemplate.exchange(URL, HttpMethod.GET, null, new ParameterizedTypeReference<>() {
-        });
+        ParameterizedTypeReference<List<PersonDto>> type = new ParameterizedTypeReference<>() {
+        };
+        ResponseEntity<List<PersonDto>> response = restTemplate.exchange(URL, HttpMethod.GET, null, type);
         return response.getBody();
     }
 

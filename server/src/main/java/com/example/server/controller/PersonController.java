@@ -1,6 +1,6 @@
 package com.example.server.controller;
 
-import com.example.server.model.Person;
+import com.example.server.entity.Person;
 import com.example.server.service.PersonService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -23,6 +23,11 @@ public class PersonController {
     @GetMapping
     public List<Person> getAll() {
         return personService.getAll();
+    }
+
+    @GetMapping("/{id}")
+    public Person getById(@PathVariable Long id) {
+        return personService.getById(id);
     }
 
     @PostMapping
