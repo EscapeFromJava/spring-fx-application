@@ -1,6 +1,6 @@
 package com.example.client.adapter;
 
-import com.example.client.dto.Person;
+import com.example.client.model.dto.PersonDto;
 import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
@@ -13,28 +13,28 @@ import java.util.List;
 
 public class PersonClient {
 
-    private final String url = "http://localhost:8080/api/person";
-
+    private static final String URL = "http://localhost:8080/api/person";
     private final RestTemplate restTemplate;
 
     public PersonClient() {
         this.restTemplate = new RestTemplate();
     }
 
-    public List<Person> getAll() {
-        ParameterizedTypeReference<List<Person>> responseType = new ParameterizedTypeReference<>() {
-        };
-        ResponseEntity<List<Person>> response = restTemplate.exchange(url, HttpMethod.GET, null, responseType);
+    public List<PersonDto> getAll() {
+        ResponseEntity<List<PersonDto>> response = restTemplate.exchange(URL, HttpMethod.GET, null, new ParameterizedTypeReference<>() {
+        });
         return response.getBody();
     }
 
-    public String savePerson(Person person) {
+    public String savePerson(PersonDto personDto) {
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.APPLICATION_JSON);
-
-        HttpEntity<Person> requestEntity = new HttpEntity<>(person, headers);
-
-        ResponseEntity<String> response = restTemplate.postForEntity(url, requestEntity, String.class);
+        HttpEntity<PersonDto> requestEntity = new HttpEntity<>(personDto, headers);
+        ResponseEntity<String> response = restTemplate.postForEntity(URL, requestEntity, String.class);
         return response.getBody();
+    }
+
+    public void removePerson(PersonDto selectedPerson) {
+        restTemplate.delete(URL + "/{id}", selectedPerson.getId());
     }
 }

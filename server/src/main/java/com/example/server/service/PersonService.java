@@ -24,4 +24,9 @@ public class PersonService {
         return personRepository.findAll();
     }
 
+    @Transactional
+    public void deletePerson(Long id) {
+        personRepository.deleteById(id);
+    }
+
 }
